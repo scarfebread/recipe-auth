@@ -13,14 +13,26 @@ fun Route.login() {
     route("/login") {
         get {
             call.respondHtml {
+                head {
+                    link(rel = "stylesheet", href = "https://fonts.googleapis.com/css?family=Didact Gothic")
+                    link(rel = "stylesheet", href = "http://localhost:8080/css/library.css", type = "text/css")
+                    link(rel = "stylesheet", href = "http://localhost:8080/css/login.css", type = "text/css")
+                }
                 body {
-                    form(method = FormMethod.post) {
-                        textInput(name = "username")
-                        br
-                        passwordInput(name = "password")
-                        br
-                        submitInput {
-                            value = "LOGIN"
+                    div(classes = "container") {
+                        div(classes = "form") {
+                            h1 { +"Recipe Auth" }
+                            form(method = FormMethod.post) {
+                                label { +"Username" }
+                                br
+                                textInput(name = "username")
+                                br
+                                label { +"Password" }
+                                br
+                                passwordInput(name = "password")
+                                br
+                                button(classes = "button") { +"LOGIN" }
+                            }
                         }
                     }
                 }
