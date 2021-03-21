@@ -7,6 +7,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
 import kotlinx.html.*
+import uk.co.thecookingpot.authentication.AuthPrinciple
 import uk.co.thecookingpot.authentication.Origin
 
 fun Route.login() {
@@ -31,6 +32,9 @@ fun Route.login() {
                                 br
                                 passwordInput(name = "password")
                                 br
+                                if (call.request.queryParameters["error"] != null) {
+                                    div(classes = "error") { +"Invalid username and password!" }
+                                }
                                 button(classes = "button") { +"LOGIN" }
                             }
                         }
@@ -42,7 +46,7 @@ fun Route.login() {
         authenticate("loginForm") {
             post {
                 call.sessions.set(
-                    call.principal<UserIdPrincipal>()
+                    call.principal<AuthPrinciple>()
                 )
 
                 call.sessions.get<Origin>()?.also { origin -> call.respondRedirect(origin.uri) } ?: call.respondRedirect("/")

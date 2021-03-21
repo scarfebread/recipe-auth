@@ -11,8 +11,11 @@ import uk.co.thecookingpot.authentication.configureOriginCookie
 import uk.co.thecookingpot.authentication.configureSessionAuth
 import uk.co.thecookingpot.repository.AuthCodeRepository
 import uk.co.thecookingpot.repository.ClientRepository
+import uk.co.thecookingpot.repository.UserRepository
 import uk.co.thecookingpot.routes.authorise
+import uk.co.thecookingpot.routes.home
 import uk.co.thecookingpot.routes.login
+import uk.co.thecookingpot.service.AuthenticationService
 import uk.co.thecookingpot.service.AuthorisationService
 import uk.co.thecookingpot.service.ClientService
 
@@ -26,10 +29,16 @@ fun Application.module() {
     }
     install(Authentication) {
         configureSessionAuth()
-        configureFormAuth()
+        configureFormAuth(
+            AuthenticationService(
+                UserRepository()
+            )
+        )
     }
 
+    // TODO prefer install syntax?
     routing {
+        home()
         login()
         authorise(
             AuthorisationService(

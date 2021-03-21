@@ -5,36 +5,44 @@ import io.ktor.auth.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.sessions.*
+import uk.co.thecookingpot.exception.InvalidCredentialsException
+import uk.co.thecookingpot.service.AuthenticationService
 
-fun Authentication.Configuration.configureFormAuth() {
+fun Authentication.Configuration.configureFormAuth(authenticationService: AuthenticationService) {
     form("loginForm") {
         userParamName = "username"
         passwordParamName = "password"
         challenge {
-            call.respondRedirect("/login")
+            call.respondRedirect("/login?error")
         }
         validate { credentials: UserPasswordCredential ->
-            UserIdPrincipal(credentials.name)
+            try {
+                AuthPrinciple(
+                    authenticationService.authenticate(credentials.name, credentials.password)
+                )
+            } catch (e: InvalidCredentialsException) {
+                null
+            }
         }
     }
 }
 
 fun Authentication.Configuration.configureSessionAuth() {
-    session<UserIdPrincipal> {
+    session<AuthPrinciple> {
         challenge {
             call.sessions.set(
                 Origin(call.request.uri)
             )
             call.respondRedirect("/login")
         }
-        validate { session: UserIdPrincipal ->
+        validate { session: AuthPrinciple ->
             session
         }
     }
 }
 
 fun Sessions.Configuration.configureAuthCookie() {
-    cookie<UserIdPrincipal>("auth-session", storage = SessionStorageMemory()) {
+    cookie<AuthPrinciple>("auth-session", storage = SessionStorageMemory()) {
         cookie.path = "/"
         cookie.extensions["SameSite"] = "lax"
     }
