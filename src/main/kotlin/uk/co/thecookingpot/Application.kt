@@ -35,14 +35,11 @@ fun Application.module() {
             )
         )
     }
-
-    // TODO prefer install syntax?
-    routing {
+    install(Routing) {
         home()
         login()
         authorise(
             AuthorisationService(
-                ClientRepository(),
                 AuthCodeRepository()
             ),
             ClientService(

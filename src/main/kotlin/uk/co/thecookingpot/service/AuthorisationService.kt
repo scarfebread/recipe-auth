@@ -1,22 +1,30 @@
 package uk.co.thecookingpot.service
 
+import io.ktor.client.request.*
 import uk.co.thecookingpot.model.AuthCode
 import uk.co.thecookingpot.model.AuthRequest
+import uk.co.thecookingpot.model.User
 import uk.co.thecookingpot.repository.AuthCodeRepository
-import uk.co.thecookingpot.repository.ClientRepository
+import uk.co.thecookingpot.utility.createTimestampInFuture
+import uk.co.thecookingpot.utility.generateAuthCode
 
 class AuthorisationService(
-    private val clientRepository: ClientRepository,
     private val authCodeRepository: AuthCodeRepository
 ) {
-    fun handle(authRequest: AuthRequest): AuthCode  {
-        val client = clientRepository.getClientByClientId(authRequest.clientId)
+    fun createAuthCode(user: User, authRequest: AuthRequest): AuthCode  {
+        if (authRequest.responseType != "code") {
+            // TODO validation moved to validator pattern
+        }
 
-        // validate client
-        // generate code
-
-        return AuthCode().apply {
-            code = "auth code"
+        AuthCode().apply {
+            code = generateAuthCode()
+            this.user = user
+            expires = createTimestampInFuture(10)
+            codeChallenge = authRequest.codeChallenge
+            codeChallengeMethod = authRequest.codeChallengeMethod
+        }.let { authCode ->
+            authCodeRepository.save(authCode)
+            return authCode
         }
     }
 }
