@@ -5,21 +5,21 @@ import io.ktor.auth.*
 import io.ktor.features.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
-import uk.co.thecookingpot.authentication.configureAuthCookie
-import uk.co.thecookingpot.authentication.configureFormAuth
-import uk.co.thecookingpot.authentication.configureOriginCookie
-import uk.co.thecookingpot.authentication.configureSessionAuth
-import uk.co.thecookingpot.repository.AuthCodeRepository
-import uk.co.thecookingpot.repository.ClientRepository
-import uk.co.thecookingpot.repository.UserRepository
-import uk.co.thecookingpot.routes.authorise
-import uk.co.thecookingpot.routes.home
-import uk.co.thecookingpot.routes.login
-import uk.co.thecookingpot.routes.token
-import uk.co.thecookingpot.service.AuthenticationService
-import uk.co.thecookingpot.service.AuthorisationService
-import uk.co.thecookingpot.service.ClientService
-import uk.co.thecookingpot.service.TokenService
+import uk.co.thecookingpot.login.configureAuthCookie
+import uk.co.thecookingpot.login.configureFormAuth
+import uk.co.thecookingpot.login.configureOriginCookie
+import uk.co.thecookingpot.login.configureSessionAuth
+import uk.co.thecookingpot.oauth.repository.AuthCodeRepository
+import uk.co.thecookingpot.oauth.repository.ClientRepository
+import uk.co.thecookingpot.login.repository.UserRepository
+import uk.co.thecookingpot.oauth.routes.authorise
+import uk.co.thecookingpot.oauth.routes.home
+import uk.co.thecookingpot.oauth.routes.login
+import uk.co.thecookingpot.oauth.routes.token
+import uk.co.thecookingpot.login.AuthenticationService
+import uk.co.thecookingpot.oauth.service.AuthorisationService
+import uk.co.thecookingpot.oauth.service.ClientService
+import uk.co.thecookingpot.oauth.service.TokenService
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
