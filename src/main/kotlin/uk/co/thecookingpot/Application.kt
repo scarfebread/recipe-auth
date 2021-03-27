@@ -15,13 +15,24 @@ import uk.co.thecookingpot.repository.UserRepository
 import uk.co.thecookingpot.routes.authorise
 import uk.co.thecookingpot.routes.home
 import uk.co.thecookingpot.routes.login
+import uk.co.thecookingpot.routes.token
 import uk.co.thecookingpot.service.AuthenticationService
 import uk.co.thecookingpot.service.AuthorisationService
 import uk.co.thecookingpot.service.ClientService
+import uk.co.thecookingpot.service.TokenService
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 fun Application.module() {
+    val authCodeRepository = AuthCodeRepository()
+    val clientRepository = ClientRepository()
+    val userRepository = UserRepository()
+
+    val authorisationService = AuthorisationService(authCodeRepository)
+    val tokenService = TokenService(authCodeRepository)
+    val clientService = ClientService(clientRepository)
+    val authenticationService = AuthenticationService(userRepository)
+
     install(ContentNegotiation)
     install(Sessions) {
         configureAuthCookie()
@@ -29,23 +40,13 @@ fun Application.module() {
     }
     install(Authentication) {
         configureSessionAuth()
-        configureFormAuth(
-            AuthenticationService(
-                UserRepository()
-            )
-        )
+        configureFormAuth(authenticationService)
     }
     install(Routing) {
         home()
         login()
-        authorise(
-            AuthorisationService(
-                AuthCodeRepository()
-            ),
-            ClientService(
-                ClientRepository()
-            )
-        )
+        authorise(authorisationService, clientService)
+        token(tokenService)
     }
 }
 

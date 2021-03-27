@@ -15,4 +15,10 @@ class AuthCodeRepository {
             accessToken.user == user
         }
     }
+
+    fun findByCode(code: String): AuthCode {
+        return accessTokens.first { accessToken ->
+            accessToken.code == code
+        }
+    }
 }

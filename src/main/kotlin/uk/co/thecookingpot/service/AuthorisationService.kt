@@ -1,6 +1,5 @@
 package uk.co.thecookingpot.service
 
-import io.ktor.client.request.*
 import uk.co.thecookingpot.model.AuthCode
 import uk.co.thecookingpot.model.AuthRequest
 import uk.co.thecookingpot.model.User

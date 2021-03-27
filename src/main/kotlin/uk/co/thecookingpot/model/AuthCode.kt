@@ -6,4 +6,8 @@ class AuthCode {
     lateinit var expires: Number
     lateinit var codeChallenge: String
     lateinit var codeChallengeMethod: String
+
+    fun isExpired(): Boolean {
+        return System.currentTimeMillis() > expires.toLong()
+    }
 }
