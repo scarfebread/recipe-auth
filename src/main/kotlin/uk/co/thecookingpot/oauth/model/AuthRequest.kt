@@ -9,8 +9,6 @@ class AuthRequest {
     lateinit var state: String
     lateinit var responseType: String
     lateinit var scope: String
-    lateinit var codeChallenge: String
-    lateinit var codeChallengeMethod: String
 
     companion object{
         private val mandatoryParameters = listOf(
@@ -19,8 +17,6 @@ class AuthRequest {
             "state",
             "response_type",
             "scope",
-            "code_challenge",
-            "code_challenge_method"
         )
 
         fun validate(parameters: Parameters): AuthRequest {
@@ -36,8 +32,6 @@ class AuthRequest {
                 state = parameters["state"].toString()
                 scope = parameters["scope"].toString()
                 responseType = parameters["response_type"].toString()
-                codeChallenge = parameters["code_challenge"].toString()
-                codeChallengeMethod = parameters["code_challenge_method"].toString()
             }
         }
     }

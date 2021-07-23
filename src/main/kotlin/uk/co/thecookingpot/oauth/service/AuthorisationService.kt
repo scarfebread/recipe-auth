@@ -3,12 +3,13 @@ package uk.co.thecookingpot.oauth.service
 import uk.co.thecookingpot.oauth.model.AuthCode
 import uk.co.thecookingpot.oauth.model.AuthRequest
 import uk.co.thecookingpot.login.repository.User
-import uk.co.thecookingpot.oauth.repository.AuthCodeRepository
+import uk.co.thecookingpot.oauth.model.Session
+import uk.co.thecookingpot.oauth.repository.SessionRepository
 import uk.co.thecookingpot.oauth.utility.createTimestampInFuture
 import uk.co.thecookingpot.oauth.utility.generateAuthCode
 
 class AuthorisationService(
-    private val authCodeRepository: AuthCodeRepository
+    private val sessionRepository: SessionRepository
 ) {
     fun createAuthCode(user: User, authRequest: AuthRequest): AuthCode  {
         if (authRequest.responseType != "code") {
@@ -18,12 +19,12 @@ class AuthorisationService(
         AuthCode().apply {
             code = generateAuthCode()
             this.user = user
-            expires = createTimestampInFuture(10)
-            codeChallenge = authRequest.codeChallenge
-            codeChallengeMethod = authRequest.codeChallengeMethod
-        }.let { authCode ->
-            authCodeRepository.save(authCode)
-            return authCode
+            expires = createTimestampInFuture(60)
+        }.let {
+            sessionRepository.save(Session().apply {
+                authCode = it
+            })
+            return it
         }
     }
 }

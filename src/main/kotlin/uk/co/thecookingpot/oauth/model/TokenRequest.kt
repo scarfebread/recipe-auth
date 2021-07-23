@@ -13,15 +13,12 @@ class TokenRequest {
 
     companion object{
         private val mandatoryParameters = listOf(
-            "client_id",
-            "grant_type",
-            "redirect_uri",
-            "client_secret",
-            "code_verifier",
             "code",
+            "grant_type",
+            "redirect_uri"
         )
 
-        fun validate(parameters: Parameters): TokenRequest {
+        fun fromParameters(parameters: Parameters): TokenRequest {
             mandatoryParameters.forEach { parameter ->
                 if (!parameters.contains(parameter)) {
                     throw MissingRequestParameterException(parameter)

@@ -1,4 +1,3 @@
 package uk.co.thecookingpot.oauth.exception
 
-class InvalidAuthCode {
-}
+class InvalidAuthCodeException(message: String): Exception(message)
