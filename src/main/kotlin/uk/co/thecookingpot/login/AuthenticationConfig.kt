@@ -42,10 +42,6 @@ fun Authentication.Configuration.configureSessionAuth() {
     }
 }
 
-fun Authentication.Configuration.configureAccessTokenAuth() {
-
-}
-
 fun Sessions.Configuration.configureAuthCookie() {
     cookie<AuthPrinciple>("auth-session", storage = SessionStorageMemory()) {
         cookie.path = "/"

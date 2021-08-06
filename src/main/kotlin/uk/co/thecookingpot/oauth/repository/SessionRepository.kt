@@ -22,4 +22,11 @@ class SessionRepository {
             // TODO and is not expired
         }
     }
+
+    fun findByAccessToken(accessToken: String): Session? {
+        return sessions.find { session ->
+            session.token?.access_token == accessToken
+            // TODO and is not expired
+        }
+    }
 }

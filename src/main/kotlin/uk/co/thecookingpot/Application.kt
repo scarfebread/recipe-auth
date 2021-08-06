@@ -6,13 +6,11 @@ import io.ktor.features.*
 import io.ktor.gson.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
-import uk.co.thecookingpot.login.configureAuthCookie
-import uk.co.thecookingpot.login.configureFormAuth
-import uk.co.thecookingpot.login.configureOriginCookie
-import uk.co.thecookingpot.login.configureSessionAuth
+import uk.co.thecookingpot.api.routes.changePassword
+import uk.co.thecookingpot.api.service.BearerAuthenticationService
+import uk.co.thecookingpot.login.*
 import uk.co.thecookingpot.oauth.repository.ClientRepository
 import uk.co.thecookingpot.login.repository.UserRepository
-import uk.co.thecookingpot.login.AuthenticationService
 import uk.co.thecookingpot.oauth.repository.SessionRepository
 import uk.co.thecookingpot.oauth.routes.*
 import uk.co.thecookingpot.oauth.service.AuthorisationService
@@ -32,6 +30,7 @@ fun Application.module() {
     val tokenService = TokenService(sessionRepository, jwtService)
     val clientService = ClientService(clientRepository)
     val authenticationService = AuthenticationService(userRepository)
+    val bearerAuthenticationService = BearerAuthenticationService(sessionRepository)
 
     install(ContentNegotiation) {
         gson()
@@ -50,6 +49,7 @@ fun Application.module() {
         authorise(authorisationService, clientService)
         token(tokenService)
         wellKnown(jwtService)
+        changePassword(bearerAuthenticationService, userRepository)
     }
 }
 

@@ -12,4 +12,8 @@ class UserRepository {
             user.username == username
         }
     }
+
+    fun save(user: User) {
+
+    }
 }
