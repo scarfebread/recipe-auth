@@ -25,6 +25,8 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("io.ktor:ktor-server-core:$ktorVersion")
     implementation("io.ktor:ktor-auth:$ktorVersion")
+    implementation("io.ktor:ktor-auth-jwt:$ktorVersion")
     implementation("io.ktor:ktor-html-builder:$ktorVersion")
+    implementation("com.nimbusds:nimbus-jose-jwt:9.11.3")
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
 }

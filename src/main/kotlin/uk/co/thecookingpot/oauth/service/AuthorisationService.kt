@@ -23,6 +23,7 @@ class AuthorisationService(
         }.let {
             sessionRepository.save(Session().apply {
                 authCode = it
+                nonce = authRequest.nonce
             })
             return it
         }

@@ -9,6 +9,7 @@ class AuthRequest {
     lateinit var state: String
     lateinit var responseType: String
     lateinit var scope: String
+    lateinit var nonce: String
 
     companion object{
         private val mandatoryParameters = listOf(
@@ -32,6 +33,7 @@ class AuthRequest {
                 state = parameters["state"].toString()
                 scope = parameters["scope"].toString()
                 responseType = parameters["response_type"].toString()
+                nonce = parameters["nonce"].toString()
             }
         }
     }

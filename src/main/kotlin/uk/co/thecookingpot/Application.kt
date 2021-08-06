@@ -12,14 +12,12 @@ import uk.co.thecookingpot.login.configureOriginCookie
 import uk.co.thecookingpot.login.configureSessionAuth
 import uk.co.thecookingpot.oauth.repository.ClientRepository
 import uk.co.thecookingpot.login.repository.UserRepository
-import uk.co.thecookingpot.oauth.routes.authorise
-import uk.co.thecookingpot.oauth.routes.home
-import uk.co.thecookingpot.oauth.routes.login
-import uk.co.thecookingpot.oauth.routes.token
 import uk.co.thecookingpot.login.AuthenticationService
 import uk.co.thecookingpot.oauth.repository.SessionRepository
+import uk.co.thecookingpot.oauth.routes.*
 import uk.co.thecookingpot.oauth.service.AuthorisationService
 import uk.co.thecookingpot.oauth.service.ClientService
+import uk.co.thecookingpot.oauth.service.JwtService
 import uk.co.thecookingpot.oauth.service.TokenService
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -30,7 +28,8 @@ fun Application.module() {
     val sessionRepository = SessionRepository()
 
     val authorisationService = AuthorisationService(sessionRepository)
-    val tokenService = TokenService(sessionRepository)
+    val jwtService = JwtService()
+    val tokenService = TokenService(sessionRepository, jwtService)
     val clientService = ClientService(clientRepository)
     val authenticationService = AuthenticationService(userRepository)
 
@@ -50,6 +49,7 @@ fun Application.module() {
         login()
         authorise(authorisationService, clientService)
         token(tokenService)
+        wellKnown(jwtService)
     }
 }
 
