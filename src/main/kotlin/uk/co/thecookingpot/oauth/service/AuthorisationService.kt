@@ -18,10 +18,10 @@ class AuthorisationService(
 
         AuthCode().apply {
             code = generateAuthCode()
-            this.user = user
             expires = createTimestampInFuture(60)
         }.let {
             sessionRepository.save(Session().apply {
+                this.user = user
                 authCode = it
                 nonce = authRequest.nonce
             })

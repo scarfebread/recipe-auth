@@ -18,7 +18,7 @@ class TokenService(private val sessionRepository: SessionRepository, private val
             access_token = "accessToken"
             refresh_token = "refreshToken"
             token_type = "bearer"
-            id_token = jwtService.createIdToken(session.nonce!!)
+            id_token = jwtService.createIdToken(session)
         }
 
         return session.token!!

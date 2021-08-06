@@ -9,6 +9,7 @@ import com.nimbusds.jose.jwk.RSAKey
 import com.nimbusds.jose.jwk.gen.RSAKeyGenerator
 import com.nimbusds.jwt.JWTClaimsSet
 import com.nimbusds.jwt.SignedJWT
+import uk.co.thecookingpot.oauth.model.Session
 import java.util.*
 
 class JwtService {
@@ -25,15 +26,16 @@ class JwtService {
             .generate()
     }
 
-    fun createIdToken(nonce: String): String {
+    fun createIdToken(session: Session): String {
         val signer: JWSSigner = RSASSASigner(jwk)
         val claimsSet = JWTClaimsSet.Builder()
-            .subject("jscarfe")
+            .subject(session.user!!.username)
             .issuer("http://localhost:8085/")
             .audience("recipe-application")
             .expirationTime(Date(Date().time + 60 * 1000))
             .issueTime(Date())
-            .claim("nonce", nonce)
+            .claim("nonce", session.nonce)
+            .claim("email", session.user!!.email)
             .build()
         val signedJWT = SignedJWT(
             JWSHeader.Builder(JWSAlgorithm.RS256).keyID(jwk.keyID).build(),
