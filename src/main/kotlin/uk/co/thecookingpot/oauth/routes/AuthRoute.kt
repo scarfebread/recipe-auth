@@ -15,7 +15,7 @@ fun Route.authorise(authorisationService: AuthorisationService, clientService: C
         get("/authorize") {
             val authRequest = AuthRequest.validate(call.request.queryParameters)
 
-            try {
+            val client = try {
                 clientService.getClient(authRequest.clientId, authRequest.redirectUri)
             } catch (e: InvalidClientException) {
                 // TODO what's the spec?
@@ -23,6 +23,7 @@ fun Route.authorise(authorisationService: AuthorisationService, clientService: C
             }
 
             val authCode = authorisationService.createAuthCode(
+                client,
                 call.principal<UserPrincipal>()!!.user,
                 authRequest
             )

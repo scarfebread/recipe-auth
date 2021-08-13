@@ -7,6 +7,8 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
+import uk.co.thecookingpot.login.session.ClientPrincipal
+import uk.co.thecookingpot.oauth.exception.InvalidAccessTokenException
 import uk.co.thecookingpot.oauth.repository.SessionRepository
 import uk.co.thecookingpot.oauth.routes.request.RevokeRequest
 
@@ -19,9 +21,12 @@ fun Route.revoke(sessionRepository: SessionRepository) {
             val tokenTypeHint = request.token_type_hint
 
             val session = sessionRepository.findByToken(token, tokenTypeHint)
+            val client = call.principal<ClientPrincipal>()!!.client
 
-            session?.run {
-                sessionRepository.deleteBySession(session)
+            if (session != null && client.clientId == session.client!!.clientId) {
+                session.run {
+                    sessionRepository.deleteBySession(session)
+                }
             }
 
             call.respond(HttpStatusCode.OK, "OK")
