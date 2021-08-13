@@ -42,6 +42,7 @@ fun Application.module() {
     install(Authentication) {
         configureSessionAuth()
         configureFormAuth(authenticationService)
+        configureClientCredentialsAuth(clientRepository)
     }
     install(Routing) {
         home()
@@ -50,6 +51,7 @@ fun Application.module() {
         token(tokenService)
         wellKnown(jwtService)
         changePassword(bearerAuthenticationService, userRepository)
+        revoke(sessionRepository)
     }
 }
 

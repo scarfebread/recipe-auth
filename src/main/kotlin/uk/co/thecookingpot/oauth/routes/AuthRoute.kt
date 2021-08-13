@@ -4,7 +4,7 @@ import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import uk.co.thecookingpot.login.session.AuthPrinciple
+import uk.co.thecookingpot.login.session.UserPrincipal
 import uk.co.thecookingpot.oauth.exception.InvalidClientException
 import uk.co.thecookingpot.oauth.model.AuthRequest
 import uk.co.thecookingpot.oauth.service.AuthorisationService
@@ -23,7 +23,7 @@ fun Route.authorise(authorisationService: AuthorisationService, clientService: C
             }
 
             val authCode = authorisationService.createAuthCode(
-                call.principal<AuthPrinciple>()!!.user,
+                call.principal<UserPrincipal>()!!.user,
                 authRequest
             )
 

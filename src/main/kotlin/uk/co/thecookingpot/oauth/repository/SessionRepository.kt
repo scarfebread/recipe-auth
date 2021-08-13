@@ -1,5 +1,7 @@
 package uk.co.thecookingpot.oauth.repository
 
+import uk.co.thecookingpot.oauth.config.ACCESS_TOKEN
+import uk.co.thecookingpot.oauth.config.REFRESH_TOKEN
 import uk.co.thecookingpot.oauth.model.Session
 
 // TODO caching solution
@@ -28,5 +30,17 @@ class SessionRepository {
             session.token?.access_token == accessToken
             // TODO and is not expired
         }
+    }
+
+    fun findByToken(token: String, tokenTypeHint: String?): Session? {
+        return when (tokenTypeHint) {
+            ACCESS_TOKEN -> findByAccessToken(token)
+            REFRESH_TOKEN -> findByRefreshToken(token)
+            else -> findByAccessToken(token) ?: findByRefreshToken(token)
+        }
+    }
+
+    fun deleteBySession(session: Session) {
+        sessions.remove(session)
     }
 }

@@ -7,7 +7,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
 import kotlinx.html.*
-import uk.co.thecookingpot.login.session.AuthPrinciple
+import uk.co.thecookingpot.login.session.UserPrincipal
 import uk.co.thecookingpot.login.session.Origin
 
 fun Route.login() {
@@ -46,7 +46,7 @@ fun Route.login() {
         authenticate("loginForm") {
             post {
                 call.sessions.set(
-                    call.principal<AuthPrinciple>()
+                    call.principal<UserPrincipal>()
                 )
 
                 call.sessions.get<Origin>()?.also { origin -> call.respondRedirect(origin.uri) } ?: call.respondRedirect("/")

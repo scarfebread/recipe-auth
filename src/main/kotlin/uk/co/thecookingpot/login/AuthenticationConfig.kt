@@ -5,9 +5,11 @@ import io.ktor.auth.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.sessions.*
-import uk.co.thecookingpot.login.session.AuthPrinciple
+import uk.co.thecookingpot.login.session.UserPrincipal
 import uk.co.thecookingpot.login.session.Origin
 import uk.co.thecookingpot.login.exception.InvalidCredentialsException
+import uk.co.thecookingpot.login.session.ClientPrincipal
+import uk.co.thecookingpot.oauth.repository.ClientRepository
 
 fun Authentication.Configuration.configureFormAuth(authenticationService: AuthenticationService) {
     form("loginForm") {
@@ -18,7 +20,7 @@ fun Authentication.Configuration.configureFormAuth(authenticationService: Authen
         }
         validate { credentials: UserPasswordCredential ->
             try {
-                AuthPrinciple(
+                UserPrincipal(
                     authenticationService.authenticate(credentials.name, credentials.password)
                 )
             } catch (e: InvalidCredentialsException) {
@@ -29,26 +31,43 @@ fun Authentication.Configuration.configureFormAuth(authenticationService: Authen
 }
 
 fun Authentication.Configuration.configureSessionAuth() {
-    session<AuthPrinciple> {
+    session<UserPrincipal> {
         challenge {
             call.sessions.set(
                 Origin(call.request.uri)
             )
             call.respondRedirect("/login")
         }
-        validate { session: AuthPrinciple ->
+        validate { session: UserPrincipal ->
             session
         }
     }
 }
 
+fun Authentication.Configuration.configureClientCredentialsAuth(clientRepository: ClientRepository) {
+    basic("clientCredentials") {
+        validate { credentials: UserPasswordCredential ->
+            val client = clientRepository.getClientByClientId(credentials.name)
+
+            if (client != null && client.clientSecret == credentials.password) {
+                ClientPrincipal(client)
+            } else {
+                null
+            }
+        }
+    }
+}
+
 fun Sessions.Configuration.configureAuthCookie() {
-    cookie<AuthPrinciple>("auth-session", storage = SessionStorageMemory()) {
+    // TODO replace SessionStorageMemory with Redis solution
+    // TODO invalidate session during revocation
+    cookie<UserPrincipal>("auth-session", storage = SessionStorageMemory()) {
         cookie.path = "/"
         cookie.extensions["SameSite"] = "lax"
     }
 }
 
+// TODO what's this for?
 fun Sessions.Configuration.configureOriginCookie() {
     cookie<Origin>("redirect-uri", storage = SessionStorageMemory()) {
         cookie.path = "/"
