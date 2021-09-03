@@ -1,7 +1,10 @@
 package uk.co.thecookingpot
 
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
 import io.ktor.application.*
 import io.ktor.auth.*
+import io.ktor.config.*
 import io.ktor.features.*
 import io.ktor.gson.*
 import io.ktor.routing.*
@@ -16,12 +19,13 @@ import uk.co.thecookingpot.oauth.service.AuthorisationService
 import uk.co.thecookingpot.oauth.service.ClientService
 import uk.co.thecookingpot.oauth.service.JwtService
 import uk.co.thecookingpot.oauth.service.TokenService
+import javax.sql.DataSource
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 fun Application.module() {
     val clientRepository = ClientRepository()
-    val userRepository = UserRepository()
+    val userRepository = UserRepository(dataSource(environment.config))
     val sessionRepository = SessionRepository()
 
     val authorisationService = AuthorisationService(sessionRepository)
@@ -51,5 +55,17 @@ fun Application.module() {
         changePassword(sessionRepository, userRepository)
         revoke(sessionRepository)
     }
+}
+
+private fun dataSource(config: ApplicationConfig): DataSource {
+    return HikariDataSource(
+        HikariConfig().apply {
+            jdbcUrl = config.property("db.jdbcUrl").getString()
+            username = config.property("db.username").getString()
+            password = config.property("db.password").getString()
+            driverClassName = config.property("db.driverClassName").getString()
+            schema = config.property("db.schema").getString()
+        }
+    )
 }
 

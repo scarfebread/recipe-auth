@@ -1,8 +1,8 @@
 package uk.co.thecookingpot.oauth.service
 
+import uk.co.thecookingpot.login.repository.User
 import uk.co.thecookingpot.oauth.model.AuthCode
 import uk.co.thecookingpot.oauth.model.AuthRequest
-import uk.co.thecookingpot.login.repository.User
 import uk.co.thecookingpot.oauth.model.Client
 import uk.co.thecookingpot.oauth.model.Session
 import uk.co.thecookingpot.oauth.repository.SessionRepository
