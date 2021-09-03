@@ -18,7 +18,7 @@ class RedisClient(host: String, port: Int, password: String) {
     }
 
     fun read(key: String): String {
-        return redis[key]
+        return redis[key] ?: throw NoSuchElementException()
     }
 
     fun delete(key: String) {
