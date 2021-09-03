@@ -57,20 +57,3 @@ fun Authentication.Configuration.configureClientCredentialsAuth(clientRepository
         }
     }
 }
-
-fun Sessions.Configuration.configureAuthCookie() {
-    // TODO replace SessionStorageMemory with Redis solution
-    // TODO invalidate session during revocation
-    cookie<UserPrincipal>("auth-session", storage = SessionStorageMemory()) {
-        cookie.path = "/"
-        cookie.extensions["SameSite"] = "lax"
-    }
-}
-
-// TODO what's this for?
-fun Sessions.Configuration.configureOriginCookie() {
-    cookie<Origin>("redirect-uri", storage = SessionStorageMemory()) {
-        cookie.path = "/"
-        cookie.extensions["SameSite"] = "lax"
-    }
-}

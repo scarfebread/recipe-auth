@@ -19,6 +19,9 @@ import uk.co.thecookingpot.oauth.service.AuthorisationService
 import uk.co.thecookingpot.oauth.service.ClientService
 import uk.co.thecookingpot.oauth.service.JwtService
 import uk.co.thecookingpot.oauth.service.TokenService
+import uk.co.thecookingpot.session.caching.RedisClient
+import uk.co.thecookingpot.session.caching.SessionCache
+import uk.co.thecookingpot.session.caching.SessionClient
 import javax.sql.DataSource
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -33,12 +36,21 @@ fun Application.module() {
     val tokenService = TokenService(sessionRepository, jwtService)
     val clientService = ClientService(clientRepository)
     val authenticationService = AuthenticationService(userRepository)
+    val sessionCache = SessionCache(
+        SessionClient(
+            RedisClient(
+                environment.config.property("redis.host").getString(),
+                environment.config.property("redis.port").getString().toInt(),
+                environment.config.property("redis.password").getString(),
+            )
+        )
+    )
 
     install(ContentNegotiation) {
         gson()
     }
     install(Sessions) {
-        configureAuthCookie()
+        configureAuthCookie(sessionCache)
         configureOriginCookie()
     }
     install(Authentication) {

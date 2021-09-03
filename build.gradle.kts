@@ -35,5 +35,6 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation("com.zaxxer:HikariCP:5.0.0")
     implementation("org.postgresql:postgresql:42.2.23")
+    implementation("redis.clients:jedis:3.7.0")
     testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
 }
