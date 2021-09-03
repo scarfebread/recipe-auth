@@ -51,7 +51,6 @@ fun Application.module() {
     }
     install(Sessions) {
         configureAuthCookie(sessionCache)
-        configureOriginCookie()
     }
     install(Authentication) {
         configureSessionAuth()

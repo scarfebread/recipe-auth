@@ -4,9 +4,7 @@ import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.request.*
 import io.ktor.response.*
-import io.ktor.sessions.*
 import uk.co.thecookingpot.login.session.UserPrincipal
-import uk.co.thecookingpot.login.session.Origin
 import uk.co.thecookingpot.login.exception.InvalidCredentialsException
 import uk.co.thecookingpot.login.session.ClientPrincipal
 import uk.co.thecookingpot.oauth.repository.ClientRepository
@@ -33,9 +31,7 @@ fun Authentication.Configuration.configureFormAuth(authenticationService: Authen
 fun Authentication.Configuration.configureSessionAuth() {
     session<UserPrincipal> {
         challenge {
-            call.sessions.set(
-                Origin(call.request.uri)
-            )
+            call.response.cookies.append("redirect-uri", call.request.uri)
             call.respondRedirect("/login")
         }
         validate { session: UserPrincipal ->

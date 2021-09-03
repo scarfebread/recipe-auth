@@ -8,7 +8,6 @@ import io.ktor.routing.*
 import io.ktor.sessions.*
 import kotlinx.html.*
 import uk.co.thecookingpot.login.session.UserPrincipal
-import uk.co.thecookingpot.login.session.Origin
 
 fun Route.login() {
     route("/login") {
@@ -49,7 +48,9 @@ fun Route.login() {
                     call.principal<UserPrincipal>()
                 )
 
-                call.sessions.get<Origin>()?.also { origin -> call.respondRedirect(origin.uri) } ?: call.respondRedirect("/")
+                call.request.cookies["redirect-uri"]?.also {
+                    call.respondRedirect(it)
+                } ?: call.respondRedirect("/")
             }
         }
     }
