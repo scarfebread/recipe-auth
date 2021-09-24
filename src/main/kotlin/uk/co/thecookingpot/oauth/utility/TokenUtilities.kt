@@ -1,6 +1,6 @@
 package uk.co.thecookingpot.oauth.utility
 
-fun generateAuthCode(): String {
+fun generateToken(): String {
     return generateString(20)
 }
 

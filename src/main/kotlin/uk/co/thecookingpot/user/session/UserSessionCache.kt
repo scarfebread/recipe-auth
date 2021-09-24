@@ -1,4 +1,4 @@
-package uk.co.thecookingpot.session.caching
+package uk.co.thecookingpot.user.session
 
 import io.ktor.sessions.*
 import io.ktor.utils.io.*
@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import java.io.ByteArrayOutputStream
 import kotlin.coroutines.coroutineContext
 
-class SessionCache(private val sessionClient: SessionClient): SessionStorage {
+class UserSessionCache(private val sessionClient: UserSessionClient): SessionStorage {
     override suspend fun invalidate(id: String) {
         sessionClient.delete(id)
     }

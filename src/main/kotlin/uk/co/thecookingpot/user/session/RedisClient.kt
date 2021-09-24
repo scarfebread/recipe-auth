@@ -1,4 +1,4 @@
-package uk.co.thecookingpot.session.caching
+package uk.co.thecookingpot.user.session
 
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.params.SetParams
@@ -12,8 +12,8 @@ class RedisClient(host: String, port: Int, password: String) {
         }
     }
 
-    fun write(key: String, value: String) {
-        redis.set(key, value, CONFIG)
+    fun write(key: String, value: String, ttl: Long) {
+        redis.set(key, value, SetParams().apply { ex (ttl) })
         redis[key] = value
     }
 
@@ -23,10 +23,5 @@ class RedisClient(host: String, port: Int, password: String) {
 
     fun delete(key: String) {
         redis.del(key)
-    }
-
-    companion object {
-        private const val TTL = (30 * 60000).toLong()
-        private val CONFIG = SetParams().apply { ex (TTL) }
     }
 }

@@ -19,32 +19,29 @@ import uk.co.thecookingpot.oauth.service.AuthorisationService
 import uk.co.thecookingpot.oauth.service.ClientService
 import uk.co.thecookingpot.oauth.service.JwtService
 import uk.co.thecookingpot.oauth.service.TokenService
-import uk.co.thecookingpot.session.caching.RedisClient
-import uk.co.thecookingpot.session.caching.SessionCache
-import uk.co.thecookingpot.session.caching.SessionClient
+import uk.co.thecookingpot.user.session.RedisClient
+import uk.co.thecookingpot.user.session.UserSessionCache
+import uk.co.thecookingpot.user.session.UserSessionClient
 import javax.sql.DataSource
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 fun Application.module() {
+    val redisClient = RedisClient(
+        environment.config.property("redis.host").getString(),
+        environment.config.property("redis.port").getString().toInt(),
+        environment.config.property("redis.password").getString(),
+    )
     val clientRepository = ClientRepository()
     val userRepository = UserRepository(dataSource(environment.config))
-    val sessionRepository = SessionRepository()
+    val sessionRepository = SessionRepository(redisClient)
 
     val authorisationService = AuthorisationService(sessionRepository)
     val jwtService = JwtService()
     val tokenService = TokenService(sessionRepository, jwtService)
     val clientService = ClientService(clientRepository)
     val authenticationService = AuthenticationService(userRepository)
-    val sessionCache = SessionCache(
-        SessionClient(
-            RedisClient(
-                environment.config.property("redis.host").getString(),
-                environment.config.property("redis.port").getString().toInt(),
-                environment.config.property("redis.password").getString(),
-            )
-        )
-    )
+    val sessionCache = UserSessionCache(UserSessionClient(redisClient))
 
     install(ContentNegotiation) {
         gson()

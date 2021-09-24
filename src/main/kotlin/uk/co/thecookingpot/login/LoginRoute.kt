@@ -48,6 +48,7 @@ fun Route.login() {
                     call.principal<UserPrincipal>()
                 )
 
+                // TODO validate the redirect URI
                 call.request.cookies["redirect-uri"]?.also {
                     call.respondRedirect(it)
                 } ?: call.respondRedirect("/")
