@@ -1,4 +1,4 @@
-package uk.co.thecookingpot.oauth.routes
+package uk.co.thecookingpot.api.routes
 
 import io.ktor.application.*
 import io.ktor.auth.*

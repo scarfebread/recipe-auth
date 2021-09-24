@@ -10,7 +10,8 @@ import io.ktor.gson.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
 import uk.co.thecookingpot.api.routes.changePassword
-import uk.co.thecookingpot.login.*
+import uk.co.thecookingpot.api.routes.home
+import uk.co.thecookingpot.authentication.AuthenticationService
 import uk.co.thecookingpot.oauth.repository.ClientRepository
 import uk.co.thecookingpot.login.repository.UserRepository
 import uk.co.thecookingpot.oauth.repository.SessionRepository
@@ -19,9 +20,13 @@ import uk.co.thecookingpot.oauth.service.AuthorisationService
 import uk.co.thecookingpot.oauth.service.ClientService
 import uk.co.thecookingpot.oauth.service.JwtService
 import uk.co.thecookingpot.oauth.service.TokenService
-import uk.co.thecookingpot.user.session.RedisClient
-import uk.co.thecookingpot.user.session.UserSessionCache
-import uk.co.thecookingpot.user.session.UserSessionRepository
+import uk.co.thecookingpot.caching.RedisClient
+import uk.co.thecookingpot.authentication.UserSessionCache
+import uk.co.thecookingpot.authentication.UserSessionRepository
+import uk.co.thecookingpot.authentication.config.configureAuthCookie
+import uk.co.thecookingpot.authentication.config.configureClientCredentialsAuth
+import uk.co.thecookingpot.authentication.config.configureFormAuth
+import uk.co.thecookingpot.authentication.config.configureSessionAuth
 import javax.sql.DataSource
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)

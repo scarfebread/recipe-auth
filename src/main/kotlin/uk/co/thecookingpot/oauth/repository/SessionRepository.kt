@@ -4,19 +4,19 @@ import com.google.gson.Gson
 import uk.co.thecookingpot.oauth.config.ACCESS_TOKEN
 import uk.co.thecookingpot.oauth.config.REFRESH_TOKEN
 import uk.co.thecookingpot.oauth.model.Session
-import uk.co.thecookingpot.user.session.RedisClient
+import uk.co.thecookingpot.caching.RedisClient
 
 class SessionRepository(private val redisClient: RedisClient) {
     private val gson = Gson()
 
     fun saveNewSession(session: Session) {
         redisClient.write(SESSION_PREFIX + session.sessionId, gson.toJson(session), SESSION_TTL)
-        redisClient.write(AUTH_CODE_PREFIX + session.authCode!!.code, session.sessionId!!, AUTH_CODE_TTL)
+        redisClient.write(AUTH_CODE_PREFIX + session.authCode!!.code, session.sessionId, AUTH_CODE_TTL)
     }
 
     fun saveTokenSet(session: Session) {
-        redisClient.write(ACCESS_TOKEN_PREFIX + session.token!!.access_token, session.sessionId!!, ACCESS_TOKEN_TTL)
-        redisClient.write(REFRESH_TOKEN_PREFIX + session.token!!.refresh_token, session.sessionId!!, REFRESH_TOKEN_TTL)
+        redisClient.write(ACCESS_TOKEN_PREFIX + session.token!!.access_token, session.sessionId, ACCESS_TOKEN_TTL)
+        redisClient.write(REFRESH_TOKEN_PREFIX + session.token!!.refresh_token, session.sessionId, REFRESH_TOKEN_TTL)
     }
 
     fun findByAuthCode(authCode: String): Session? {

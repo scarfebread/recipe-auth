@@ -1,4 +1,4 @@
-package uk.co.thecookingpot.login
+package uk.co.thecookingpot.authentication
 
 import uk.co.thecookingpot.login.exception.InvalidCredentialsException
 import uk.co.thecookingpot.login.repository.User

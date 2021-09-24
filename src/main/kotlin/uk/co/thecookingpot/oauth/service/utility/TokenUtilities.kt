@@ -1,4 +1,4 @@
-package uk.co.thecookingpot.oauth.utility
+package uk.co.thecookingpot.oauth.service.utility
 
 fun generateToken(): String {
     return generateString(20)

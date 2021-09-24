@@ -1,9 +1,10 @@
-package uk.co.thecookingpot.login
+package uk.co.thecookingpot.authentication.config
 
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.request.*
 import io.ktor.response.*
+import uk.co.thecookingpot.authentication.AuthenticationService
 import uk.co.thecookingpot.login.session.UserPrincipal
 import uk.co.thecookingpot.login.exception.InvalidCredentialsException
 import uk.co.thecookingpot.login.session.ClientPrincipal

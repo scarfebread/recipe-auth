@@ -6,8 +6,7 @@ import uk.co.thecookingpot.oauth.model.AuthRequest
 import uk.co.thecookingpot.oauth.model.Client
 import uk.co.thecookingpot.oauth.model.Session
 import uk.co.thecookingpot.oauth.repository.SessionRepository
-import uk.co.thecookingpot.oauth.utility.createTimestampInFuture
-import uk.co.thecookingpot.oauth.utility.generateToken
+import uk.co.thecookingpot.oauth.service.utility.generateToken
 
 class AuthorisationService(
     private val sessionRepository: SessionRepository
@@ -19,7 +18,6 @@ class AuthorisationService(
 
         AuthCode().apply {
             code = generateToken()
-            expires = createTimestampInFuture(60)
         }.let {
             sessionRepository.saveNewSession(Session().apply {
                 this.sessionId = sessionId

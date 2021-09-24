@@ -5,7 +5,7 @@ import uk.co.thecookingpot.oauth.exception.InvalidRefreshTokenException
 import uk.co.thecookingpot.oauth.model.Token
 import uk.co.thecookingpot.oauth.model.TokenRequest
 import uk.co.thecookingpot.oauth.repository.SessionRepository
-import uk.co.thecookingpot.oauth.utility.generateToken
+import uk.co.thecookingpot.oauth.service.utility.generateToken
 
 class TokenService(private val sessionRepository: SessionRepository, private val jwtService: JwtService) {
     fun generateToken(request: TokenRequest): Token {

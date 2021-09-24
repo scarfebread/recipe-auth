@@ -1,4 +1,4 @@
-package uk.co.thecookingpot.user.session
+package uk.co.thecookingpot.caching
 
 import redis.clients.jedis.Jedis
 import redis.clients.jedis.params.SetParams

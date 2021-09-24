@@ -11,7 +11,7 @@ import uk.co.thecookingpot.login.session.ClientPrincipal
 import uk.co.thecookingpot.oauth.exception.InvalidAccessTokenException
 import uk.co.thecookingpot.oauth.repository.SessionRepository
 import uk.co.thecookingpot.oauth.routes.request.RevokeRequest
-import uk.co.thecookingpot.user.session.UserSessionRepository
+import uk.co.thecookingpot.authentication.UserSessionRepository
 
 fun Route.revoke(sessionRepository: SessionRepository, userSessionRepository: UserSessionRepository) {
     authenticate("clientCredentials") {

@@ -1,4 +1,6 @@
-package uk.co.thecookingpot.user.session
+package uk.co.thecookingpot.authentication
+
+import uk.co.thecookingpot.caching.RedisClient
 
 class UserSessionRepository(private val redisClient: RedisClient) {
     fun write(sessionId: String, value: String) {
