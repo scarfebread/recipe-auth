@@ -24,10 +24,10 @@ fun Route.revoke(sessionRepository: SessionRepository, userSessionRepository: Us
             val session = sessionRepository.findByToken(token, tokenTypeHint)
             val client = call.principal<ClientPrincipal>()!!.client
 
-            if (session != null && client.clientId == session.client!!.clientId) {
+            if (session != null && client.clientId == session.client.clientId) {
                 session.run {
                     sessionRepository.deleteBySession(session)
-                    userSessionRepository.delete(session.sessionId!!)
+                    userSessionRepository.delete(session.sessionId)
                 }
             }
 

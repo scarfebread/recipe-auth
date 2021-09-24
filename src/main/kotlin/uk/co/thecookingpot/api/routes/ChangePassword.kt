@@ -25,10 +25,10 @@ fun Route.changePassword(sessionRepository: SessionRepository, userRepository: U
             val accessToken = request.accessToken ?: throw MissingRequestParameterException("accessToken")
 
             val session = sessionRepository.findByAccessToken(accessToken) ?: throw InvalidAccessTokenException("Invalid access token")
-            val user = userRepository.findByUsername(session.user!!.username)
+            val user = userRepository.findByUsername(session.user.username)
             val client = call.principal<ClientPrincipal>()!!.client
 
-            if (client.clientId != session.client!!.clientId) {
+            if (client.clientId != session.client.clientId) {
                 throw InvalidAccessTokenException("Invalid access token")
             }
 

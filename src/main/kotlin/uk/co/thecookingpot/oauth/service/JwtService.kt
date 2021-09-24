@@ -29,13 +29,13 @@ class JwtService {
     fun createIdToken(session: Session): String {
         val signer: JWSSigner = RSASSASigner(jwk)
         val claimsSet = JWTClaimsSet.Builder()
-            .subject(session.user!!.username)
+            .subject(session.user.username)
             .issuer("http://localhost:8085/")
             .audience("recipe-application")
             .expirationTime(Date(Date().time + 60 * 1000))
             .issueTime(Date())
             .claim("nonce", session.nonce)
-            .claim("email", session.user!!.email)
+            .claim("email", session.user.email)
             .build()
         val signedJWT = SignedJWT(
             JWSHeader.Builder(JWSAlgorithm.RS256).keyID(jwk.keyID).build(),
