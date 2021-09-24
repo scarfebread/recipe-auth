@@ -11,8 +11,9 @@ import uk.co.thecookingpot.login.session.ClientPrincipal
 import uk.co.thecookingpot.oauth.exception.InvalidAccessTokenException
 import uk.co.thecookingpot.oauth.repository.SessionRepository
 import uk.co.thecookingpot.oauth.routes.request.RevokeRequest
+import uk.co.thecookingpot.user.session.UserSessionRepository
 
-fun Route.revoke(sessionRepository: SessionRepository) {
+fun Route.revoke(sessionRepository: SessionRepository, userSessionRepository: UserSessionRepository) {
     authenticate("clientCredentials") {
         post("/revoke") {
             val request = call.receive<RevokeRequest>()
@@ -26,6 +27,7 @@ fun Route.revoke(sessionRepository: SessionRepository) {
             if (session != null && client.clientId == session.client!!.clientId) {
                 session.run {
                     sessionRepository.deleteBySession(session)
+                    userSessionRepository.delete(session.sessionId!!)
                 }
             }
 

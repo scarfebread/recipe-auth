@@ -1,7 +1,6 @@
 package uk.co.thecookingpot.oauth.model
 
 import uk.co.thecookingpot.login.repository.User
-import uk.co.thecookingpot.oauth.utility.generateToken
 
 // TODO what was the reason these are optional?
 class Session {
@@ -11,8 +10,4 @@ class Session {
     var authCode: AuthCode? = null
     var token: Token? = null
     var nonce: String? = null
-
-    init {
-        sessionId = generateToken()
-    }
 }

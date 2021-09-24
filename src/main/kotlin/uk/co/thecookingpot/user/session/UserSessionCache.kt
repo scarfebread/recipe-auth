@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import java.io.ByteArrayOutputStream
 import kotlin.coroutines.coroutineContext
 
-class UserSessionCache(private val sessionClient: UserSessionClient): SessionStorage {
+class UserSessionCache(private val sessionClient: UserSessionRepository): SessionStorage {
     override suspend fun invalidate(id: String) {
         sessionClient.delete(id)
     }

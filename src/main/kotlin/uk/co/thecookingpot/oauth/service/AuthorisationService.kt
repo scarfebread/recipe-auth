@@ -12,7 +12,7 @@ import uk.co.thecookingpot.oauth.utility.generateToken
 class AuthorisationService(
     private val sessionRepository: SessionRepository
 ) {
-    fun createAuthCode(client: Client, user: User, authRequest: AuthRequest): AuthCode  {
+    fun createAuthCode(client: Client, user: User, authRequest: AuthRequest, sessionId: String): AuthCode  {
         if (authRequest.responseType != "code") {
             // TODO validation moved to validator pattern
         }
@@ -22,6 +22,7 @@ class AuthorisationService(
             expires = createTimestampInFuture(60)
         }.let {
             sessionRepository.saveNewSession(Session().apply {
+                this.sessionId = sessionId
                 this.client = client
                 this.user = user
                 authCode = it
