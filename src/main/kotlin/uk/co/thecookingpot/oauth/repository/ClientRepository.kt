@@ -1,6 +1,7 @@
 package uk.co.thecookingpot.oauth.repository
 
 import uk.co.thecookingpot.oauth.config.AUTHORISATION_CODE
+import uk.co.thecookingpot.oauth.config.OPENID
 import uk.co.thecookingpot.oauth.model.Client
 
 class ClientRepository {
@@ -10,6 +11,7 @@ class ClientRepository {
         clientSecret = "recipe-application"
         publicClient = false
         grantTypes = listOf(AUTHORISATION_CODE)
+        scopes = listOf(OPENID)
     })
 
     fun getClientByClientId(clientId: String): Client? {

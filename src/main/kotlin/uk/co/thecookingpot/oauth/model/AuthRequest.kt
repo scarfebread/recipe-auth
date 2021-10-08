@@ -20,7 +20,7 @@ class AuthRequest {
             "scope",
         )
 
-        fun validate(parameters: Parameters): AuthRequest {
+        fun fromRequest(parameters: Parameters): AuthRequest {
             mandatoryParameters.forEach { parameter ->
                 if (!parameters.contains(parameter)) {
                     throw MissingRequestParameterException(parameter)

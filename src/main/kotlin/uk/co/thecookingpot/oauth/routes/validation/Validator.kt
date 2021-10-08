@@ -1,7 +1,7 @@
-package uk.co.thecookingpot.oauth.routes.validation.token
+package uk.co.thecookingpot.oauth.routes.validation
 
 import io.ktor.http.*
 
-interface TokenValidator {
+interface Validator {
     fun validate(parameters: Parameters, validationResponse: ValidationResponse): Boolean
 }

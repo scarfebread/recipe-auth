@@ -1,11 +1,8 @@
-package uk.co.thecookingpot.oauth.routes.validation.token
+package uk.co.thecookingpot.oauth.routes.validation.authorise
 
 import io.ktor.http.*
-import uk.co.thecookingpot.oauth.config.CODE
-import uk.co.thecookingpot.oauth.config.GRANT_TYPE
-import uk.co.thecookingpot.oauth.config.INVALID_REQUEST
-import uk.co.thecookingpot.oauth.config.REDIRECT_URI
-import uk.co.thecookingpot.oauth.model.TokenRequest
+import uk.co.thecookingpot.oauth.config.*
+import uk.co.thecookingpot.oauth.model.AuthRequest
 import uk.co.thecookingpot.oauth.routes.validation.Validator
 import uk.co.thecookingpot.oauth.routes.validation.ValidationFailure
 import uk.co.thecookingpot.oauth.routes.validation.ValidationResponse
@@ -19,16 +16,18 @@ class InvalidRequestValidator: Validator {
             }
         }
 
-        validationResponse.tokenRequest = TokenRequest.fromParameters(parameters)
+        validationResponse.authRequest = AuthRequest.fromRequest(parameters)
 
         return true;
     }
 
     companion object {
         private val mandatoryParameters = listOf(
-            CODE,
-            GRANT_TYPE,
-            REDIRECT_URI
+            CLIENT_ID,
+            REDIRECT_URI,
+            STATE,
+            RESPONSE_TYPE,
+            SCOPE,
         )
     }
 }

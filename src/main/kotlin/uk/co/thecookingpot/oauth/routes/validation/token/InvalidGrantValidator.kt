@@ -4,8 +4,12 @@ import io.ktor.http.*
 import uk.co.thecookingpot.oauth.config.INVALID_GRANT
 import uk.co.thecookingpot.oauth.model.Client
 import uk.co.thecookingpot.oauth.repository.SessionRepository
+import uk.co.thecookingpot.oauth.routes.validation.Validator
+import uk.co.thecookingpot.oauth.routes.validation.ValidationFailure
+import uk.co.thecookingpot.oauth.routes.validation.ValidationResponse
 
-class InvalidGrantValidator(private val sessionRepository: SessionRepository, private val client: Client): TokenValidator {
+class InvalidGrantValidator(private val sessionRepository: SessionRepository, private val client: Client):
+    Validator {
     override fun validate(parameters: Parameters, validationResponse: ValidationResponse): Boolean {
         val session = sessionRepository.findByAuthCode(validationResponse.tokenRequest.code)
 

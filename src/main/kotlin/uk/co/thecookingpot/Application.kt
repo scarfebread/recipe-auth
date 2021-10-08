@@ -17,7 +17,6 @@ import uk.co.thecookingpot.login.repository.UserRepository
 import uk.co.thecookingpot.oauth.repository.SessionRepository
 import uk.co.thecookingpot.oauth.routes.*
 import uk.co.thecookingpot.oauth.service.AuthorisationService
-import uk.co.thecookingpot.oauth.service.ClientService
 import uk.co.thecookingpot.oauth.service.JwtService
 import uk.co.thecookingpot.oauth.service.TokenService
 import uk.co.thecookingpot.caching.RedisClient
@@ -45,7 +44,6 @@ fun Application.module() {
     val authorisationService = AuthorisationService(sessionRepository)
     val jwtService = JwtService()
     val tokenService = TokenService(sessionRepository, jwtService)
-    val clientService = ClientService(clientRepository)
     val authenticationService = AuthenticationService(userRepository)
     val sessionCache = UserSessionCache(userSessionRepository)
 
@@ -63,7 +61,7 @@ fun Application.module() {
     install(Routing) {
         home()
         login()
-        authorise(authorisationService, clientService)
+        authorise(authorisationService, clientRepository)
         token(tokenService, clientRepository, sessionRepository)
         wellKnown(jwtService)
         changePassword(sessionRepository, userRepository)

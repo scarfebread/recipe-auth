@@ -1,3 +1,3 @@
-package uk.co.thecookingpot.oauth.routes.validation.token
+package uk.co.thecookingpot.oauth.routes.validation
 
 class ValidationFailure(val error: String, val errorDescription: String)

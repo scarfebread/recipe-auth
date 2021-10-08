@@ -17,7 +17,6 @@ fun Route.revoke(sessionRepository: SessionRepository, userSessionRepository: Us
     authenticate("clientCredentials") {
         post("/revoke") {
             val request = call.receive<RevokeRequest>()
-
             val token = request.token ?: throw MissingRequestParameterException("token")
             val tokenTypeHint = request.token_type_hint
 

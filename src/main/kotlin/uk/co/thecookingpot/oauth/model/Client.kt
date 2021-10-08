@@ -5,6 +5,7 @@ class Client {
     lateinit var redirectUris: List<String>
     lateinit var clientSecret: String
     lateinit var grantTypes: List<String>
+    lateinit var scopes: List<String>
     var publicClient = false
 
     override fun equals(other: Any?): Boolean {
