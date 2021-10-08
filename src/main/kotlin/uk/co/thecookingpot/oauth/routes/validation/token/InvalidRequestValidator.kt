@@ -5,7 +5,6 @@ import uk.co.thecookingpot.oauth.config.CODE
 import uk.co.thecookingpot.oauth.config.GRANT_TYPE
 import uk.co.thecookingpot.oauth.config.INVALID_REQUEST
 import uk.co.thecookingpot.oauth.config.REDIRECT_URI
-import uk.co.thecookingpot.oauth.model.TokenRequest
 import uk.co.thecookingpot.oauth.routes.validation.Validator
 import uk.co.thecookingpot.oauth.routes.validation.ValidationFailure
 import uk.co.thecookingpot.oauth.routes.validation.ValidationResponse
@@ -18,8 +17,6 @@ class InvalidRequestValidator: Validator {
                 return false
             }
         }
-
-        validationResponse.tokenRequest = TokenRequest.fromParameters(parameters)
 
         return true;
     }

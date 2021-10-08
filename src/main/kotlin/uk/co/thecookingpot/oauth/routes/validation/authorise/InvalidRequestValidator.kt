@@ -2,7 +2,6 @@ package uk.co.thecookingpot.oauth.routes.validation.authorise
 
 import io.ktor.http.*
 import uk.co.thecookingpot.oauth.config.*
-import uk.co.thecookingpot.oauth.model.AuthRequest
 import uk.co.thecookingpot.oauth.routes.validation.Validator
 import uk.co.thecookingpot.oauth.routes.validation.ValidationFailure
 import uk.co.thecookingpot.oauth.routes.validation.ValidationResponse
@@ -15,8 +14,6 @@ class InvalidRequestValidator: Validator {
                 return false
             }
         }
-
-        validationResponse.authRequest = AuthRequest.fromRequest(parameters)
 
         return true;
     }

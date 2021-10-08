@@ -22,7 +22,6 @@ fun Route.token(tokenService: TokenService, clientRepository: ClientRepository, 
 
             listOf(
                 InvalidRequestValidator(),
-                InvalidClientValidator(),
                 UnsupportedGrantTypeValidator(),
                 InvalidGrantValidator(sessionRepository, client),
                 UnauthorisedClientValidator(client),

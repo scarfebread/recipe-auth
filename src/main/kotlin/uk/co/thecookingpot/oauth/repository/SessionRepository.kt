@@ -15,8 +15,8 @@ class SessionRepository(private val redisClient: RedisClient) {
     }
 
     fun saveTokenSet(session: Session) {
-        redisClient.write(ACCESS_TOKEN_PREFIX + session.token!!.access_token, session.sessionId, ACCESS_TOKEN_TTL)
-        redisClient.write(REFRESH_TOKEN_PREFIX + session.token!!.refresh_token, session.sessionId, REFRESH_TOKEN_TTL)
+        redisClient.write(ACCESS_TOKEN_PREFIX + session.token!!.accessToken, session.sessionId, ACCESS_TOKEN_TTL)
+        redisClient.write(REFRESH_TOKEN_PREFIX + session.token!!.refreshToken, session.sessionId, REFRESH_TOKEN_TTL)
     }
 
     fun findByAuthCode(authCode: String): Session? {
@@ -62,8 +62,8 @@ class SessionRepository(private val redisClient: RedisClient) {
         }
 
         session.token?.run {
-            redisClient.delete(ACCESS_TOKEN_PREFIX + session.token!!.access_token)
-            redisClient.delete(REFRESH_TOKEN_PREFIX + session.token!!.refresh_token)
+            redisClient.delete(ACCESS_TOKEN_PREFIX + session.token!!.accessToken)
+            redisClient.delete(REFRESH_TOKEN_PREFIX + session.token!!.refreshToken)
         }
     }
 

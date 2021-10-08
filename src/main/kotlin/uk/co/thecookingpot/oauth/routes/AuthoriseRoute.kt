@@ -7,7 +7,9 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
 import uk.co.thecookingpot.authentication.session.UserPrincipal
+import uk.co.thecookingpot.oauth.config.NONCE
 import uk.co.thecookingpot.oauth.config.REDIRECT_URI
+import uk.co.thecookingpot.oauth.config.STATE
 import uk.co.thecookingpot.oauth.repository.ClientRepository
 import uk.co.thecookingpot.oauth.routes.validation.ValidationResponse
 import uk.co.thecookingpot.oauth.routes.validation.authorise.InvalidRequestValidator
@@ -44,17 +46,15 @@ fun Route.authorise(authorisationService: AuthorisationService, clientRepository
                 }
             }
 
-            val authRequest = validationResponse.authRequest
-            val client = validationResponse.client
-
             val authCode = authorisationService.createAuthCode(
-                client,
+                validationResponse.client,
                 call.principal<UserPrincipal>()!!.user,
-                authRequest,
-                call.sessionId!!
+                call.sessionId!!,
+                parameters[REDIRECT_URI]!!,
+                parameters[NONCE]!!
             )
 
-            call.respondRedirect("${authRequest.redirectUri}?code=${authCode.code}&state=${authRequest.state}")
+            call.respondRedirect("${parameters[REDIRECT_URI]}?code=${authCode.code}&state=${parameters[STATE]}")
         }
     }
 }
