@@ -5,7 +5,7 @@ import io.ktor.auth.*
 import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
-import uk.co.thecookingpot.login.session.UserPrincipal
+import uk.co.thecookingpot.authentication.session.UserPrincipal
 import uk.co.thecookingpot.oauth.exception.InvalidClientException
 import uk.co.thecookingpot.oauth.model.AuthRequest
 import uk.co.thecookingpot.oauth.service.AuthorisationService

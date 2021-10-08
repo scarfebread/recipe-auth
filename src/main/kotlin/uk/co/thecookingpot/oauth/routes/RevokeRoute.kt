@@ -7,11 +7,11 @@ import io.ktor.http.*
 import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
-import uk.co.thecookingpot.login.session.ClientPrincipal
+import uk.co.thecookingpot.authentication.session.ClientPrincipal
 import uk.co.thecookingpot.oauth.exception.InvalidAccessTokenException
 import uk.co.thecookingpot.oauth.repository.SessionRepository
 import uk.co.thecookingpot.oauth.routes.request.RevokeRequest
-import uk.co.thecookingpot.authentication.UserSessionRepository
+import uk.co.thecookingpot.authentication.session.UserSessionRepository
 
 fun Route.revoke(sessionRepository: SessionRepository, userSessionRepository: UserSessionRepository) {
     authenticate("clientCredentials") {

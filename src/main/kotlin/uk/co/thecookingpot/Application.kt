@@ -21,8 +21,8 @@ import uk.co.thecookingpot.oauth.service.ClientService
 import uk.co.thecookingpot.oauth.service.JwtService
 import uk.co.thecookingpot.oauth.service.TokenService
 import uk.co.thecookingpot.caching.RedisClient
-import uk.co.thecookingpot.authentication.UserSessionCache
-import uk.co.thecookingpot.authentication.UserSessionRepository
+import uk.co.thecookingpot.authentication.session.UserSessionCache
+import uk.co.thecookingpot.authentication.session.UserSessionRepository
 import uk.co.thecookingpot.authentication.config.configureAuthCookie
 import uk.co.thecookingpot.authentication.config.configureClientCredentialsAuth
 import uk.co.thecookingpot.authentication.config.configureFormAuth
@@ -64,7 +64,7 @@ fun Application.module() {
         home()
         login()
         authorise(authorisationService, clientService)
-        token(tokenService)
+        token(tokenService, clientRepository, sessionRepository)
         wellKnown(jwtService)
         changePassword(sessionRepository, userRepository)
         revoke(sessionRepository, userSessionRepository)

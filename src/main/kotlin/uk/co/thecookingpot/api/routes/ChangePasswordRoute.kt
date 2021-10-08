@@ -10,8 +10,8 @@ import io.ktor.routing.*
 import uk.co.thecookingpot.login.repository.UserRepository
 import uk.co.thecookingpot.api.exception.InvalidUserException
 import uk.co.thecookingpot.api.routes.request.ChangePasswordRequest
-import uk.co.thecookingpot.login.session.ClientPrincipal
-import uk.co.thecookingpot.login.session.UserPrincipal
+import uk.co.thecookingpot.authentication.session.ClientPrincipal
+import uk.co.thecookingpot.authentication.session.UserPrincipal
 import uk.co.thecookingpot.oauth.exception.InvalidAccessTokenException
 import uk.co.thecookingpot.oauth.exception.InvalidClientException
 import uk.co.thecookingpot.oauth.repository.SessionRepository

@@ -1,4 +1,4 @@
-package uk.co.thecookingpot.authentication
+package uk.co.thecookingpot.authentication.session
 
 import io.ktor.sessions.*
 import io.ktor.utils.io.*

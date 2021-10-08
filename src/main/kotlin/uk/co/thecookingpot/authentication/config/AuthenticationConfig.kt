@@ -5,9 +5,9 @@ import io.ktor.auth.*
 import io.ktor.request.*
 import io.ktor.response.*
 import uk.co.thecookingpot.authentication.AuthenticationService
-import uk.co.thecookingpot.login.session.UserPrincipal
+import uk.co.thecookingpot.authentication.session.UserPrincipal
 import uk.co.thecookingpot.login.exception.InvalidCredentialsException
-import uk.co.thecookingpot.login.session.ClientPrincipal
+import uk.co.thecookingpot.authentication.session.ClientPrincipal
 import uk.co.thecookingpot.oauth.repository.ClientRepository
 
 fun Authentication.Configuration.configureFormAuth(authenticationService: AuthenticationService) {

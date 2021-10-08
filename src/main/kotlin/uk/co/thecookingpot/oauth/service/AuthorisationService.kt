@@ -18,6 +18,7 @@ class AuthorisationService(
 
         AuthCode().apply {
             code = generateToken()
+            redirectUri = authRequest.redirectUri
         }.let {
             sessionRepository.saveNewSession(Session().apply {
                 this.sessionId = sessionId

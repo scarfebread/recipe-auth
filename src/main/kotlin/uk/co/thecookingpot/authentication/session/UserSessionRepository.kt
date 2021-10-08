@@ -1,4 +1,4 @@
-package uk.co.thecookingpot.authentication
+package uk.co.thecookingpot.authentication.session
 
 import uk.co.thecookingpot.caching.RedisClient
 

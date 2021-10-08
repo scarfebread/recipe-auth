@@ -7,7 +7,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.sessions.*
 import kotlinx.html.*
-import uk.co.thecookingpot.login.session.UserPrincipal
+import uk.co.thecookingpot.authentication.session.UserPrincipal
 
 fun Route.login() {
     route("/login") {

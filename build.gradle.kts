@@ -1,6 +1,6 @@
-val ktorVersion: String by project
-val kotlinVersion: String by project
-val logbackVersion: String by project
+val ktorVersion = "1.6.3"
+val kotlinVersion = "1.5.31"
+val logbackVersion = "1.2.5"
 val exposedVersion = "0.34.1"
 
 plugins {
