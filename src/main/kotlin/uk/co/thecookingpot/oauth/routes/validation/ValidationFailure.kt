@@ -1,3 +1,5 @@
 package uk.co.thecookingpot.oauth.routes.validation
 
-class ValidationFailure(val error: String, val errorDescription: String)
+import com.google.gson.annotations.SerializedName
+
+class ValidationFailure(val error: String, @SerializedName("error_description") val errorDescription: String)
